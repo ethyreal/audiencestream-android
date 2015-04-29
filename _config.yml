@@ -1,5 +1,5 @@
 baseurl: /audiencestream-android
 name: AudienceStream for Android
 markdown: redcarpet
-permalink: /:title
+permalink: /:title.html
 excerpt_separator: "<!--more-->"
