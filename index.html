@@ -9,7 +9,7 @@ title: AudienceStream for Android
   <ul class="posts">
     {% for post in site.posts %}
       <li>
-		  <a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a>
+		  <a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a>; {{ post.subtitle }}
 		  {{ post.excerpt }}
 	  </li>
     {% endfor %}

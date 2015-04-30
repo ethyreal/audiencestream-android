@@ -1,11 +1,14 @@
 ---
 layout: post
 title: Trackable Actions
+subtitle: figure out what to track
 ---
 
 * [Screen Views](trackable-actions.html#screen-views)
 * [Button Clicks](trackable-actions.html#button-clicks)
 * [Form Entry](trackable-actions.html#form-entry)
+
+<hr/>
 
 <!--more--> 
 

@@ -1,12 +1,15 @@
 ---
 layout: post
 title: Getting Started
+subtitle: a quick start guide
 ---
 
 * [Download](getting-started.html#download)
 * [Enable](getting-started.html#enable)
 * [Integrate](getting-started.html#integrate)
 * [Personalize](getting-started.html#personalize)
+ 
+<hr/>
  
 <!--more-->
  
