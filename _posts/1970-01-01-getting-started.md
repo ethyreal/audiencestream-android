@@ -74,6 +74,25 @@ AudienceStream.getEventListeners().add(new AudienceStream.OnBadgeUpdateListener(
 });
 ```   
  
-To better understand behaviors ```AudienceStream``` identifies; please see the [attributes]({{ site.baseurl}}/attributes.html) guide.   
-
+Visitor Attributes are defined in ```AudienceStream``` through [TealiumIQ](https://my.tealiumiq.com). The available attributes are:  
  
+* Audience
+ * Groups of Visitor Attributes.
+* Badge
+ * Badges are ways of identifying segments of new users.
+* Date
+ * Stores a date value.
+* Flag
+ * Stores boolean values.
+* Metric
+ * Stores numerical data.
+* Trait
+ * Stores string. 
+
+To look up what attributes are currently defined for your ```AudienceStream``` account-profile: 
+
+```
+GET http(s)://visitor-service.tealiumiq.com/datacloudprofiledefinitions/{account}/{profile}/{visitor_id}
+``` 
+
+A visitor id is created per-install by the ```AudienceStream``` library, and can be found through LogCat logs or the [getVisitorId]({{ site.baseurl}}/javadoc/com/tealium/audiencestream/AudienceStream.html#getVisitorId()) method.
