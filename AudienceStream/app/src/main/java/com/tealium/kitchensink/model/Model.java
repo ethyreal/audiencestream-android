@@ -6,7 +6,6 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.graphics.Color;
 import android.widget.ArrayAdapter;
 
 import com.tealium.kitchensink.R;
@@ -20,7 +19,6 @@ public final class Model extends SQLiteOpenHelper {
     private static final String TBL_ACCOUNT = "account";
     private static final String TBL_PROFILE = "profile";
     private static final String TBL_ENV = "environment";
-    private static final String TBL_FIRSTNAME = "firstname";
 
     private static final String COL_ACCT_NAME = "name";
     private static final String COL_ACCT_CREATED = "created_ms";
@@ -28,14 +26,11 @@ public final class Model extends SQLiteOpenHelper {
     private static final String COL_PROF_CREATED = "created_ms";
     private static final String COL_ENV_NAME = "name";
     private static final String COL_ENV_CREATED = "created_ms";
-    private static final String COL_FIRSTNAME_NAME = "name";
-    private static final String COL_FIRSTNAME_CREATED = "created_ms";
 
     private static final String KEY_ACCOUNT_NAME = "account_name";
     private static final String KEY_PROFILE_NAME = "profile_name";
     private static final String KEY_ENV_NAME = "environment_name";
-    private static final String KEY_BACKGROUND_COLOR = "background_color";
-    private static final String KEY_FIRSTNAME = "firstname";
+    private static final String KEY_TRACE_ID = "trace_id";
 
     private final Context context;
     private final SharedPreferences sharedPreferences;
@@ -43,7 +38,7 @@ public final class Model extends SQLiteOpenHelper {
     public Model(Context context) {
         super(context, "kitchensink_model.db", null, 1);
         this.context = context.getApplicationContext();
-        this.sharedPreferences = this.context.getSharedPreferences("kitchensink_model.sp", 0);
+        this.sharedPreferences = this.context.getSharedPreferences("kitchensink_model", 0);
     }
 
     @Override
@@ -64,14 +59,6 @@ public final class Model extends SQLiteOpenHelper {
 
         contentValues.put(COL_ENV_NAME, "prod");
         db.insertWithOnConflict(TBL_ENV, null, contentValues, SQLiteDatabase.CONFLICT_IGNORE);
-
-        contentValues = new ContentValues(2);
-        contentValues.put(COL_FIRSTNAME_CREATED, created);
-
-        for (String name : this.context.getResources().getStringArray(R.array.firstname_names)) {
-            contentValues.put(COL_FIRSTNAME_NAME, name);
-            db.insertWithOnConflict(TBL_FIRSTNAME, null, contentValues, SQLiteDatabase.CONFLICT_IGNORE);
-        }
 
         this.setConfig(db, DEFAULT_ACCOUNT, DEFAULT_PROFILE, DEFAULT_ENV);
     }
@@ -117,24 +104,6 @@ public final class Model extends SQLiteOpenHelper {
                 .apply();
     }
 
-    public boolean setDefaultFirstName(String name) {
-
-        if (name == null || name.length() == 0) {
-            return true;
-        }
-
-        ContentValues contentValues = new ContentValues(2);
-        contentValues.put(COL_FIRSTNAME_NAME, name);
-        contentValues.put(COL_FIRSTNAME_CREATED, System.currentTimeMillis());
-
-        SQLiteDatabase db = this.getWritableDatabase();
-        db.insertWithOnConflict(TBL_FIRSTNAME, null, contentValues, SQLiteDatabase.CONFLICT_IGNORE);
-        db.close();
-
-        this.sharedPreferences.edit().putString(KEY_FIRSTNAME, name).commit();
-        return true;
-    }
-
     public String getAccountName() {
         return this.sharedPreferences.getString(KEY_ACCOUNT_NAME, DEFAULT_ACCOUNT);
     }
@@ -145,16 +114,6 @@ public final class Model extends SQLiteOpenHelper {
 
     public String getEnvironmentName() {
         return this.sharedPreferences.getString(KEY_ENV_NAME, DEFAULT_ENV);
-    }
-
-    public String getCurrentFirstName() {
-        return this.sharedPreferences.getString(
-                KEY_FIRSTNAME,
-                this.context.getResources().getString(R.string.firstname_default));
-    }
-
-    public int getBackgroundColor() {
-        return this.sharedPreferences.getInt(KEY_BACKGROUND_COLOR, Color.WHITE);
     }
 
     public ArrayAdapter<String> getAccountAdapter() {
@@ -178,18 +137,22 @@ public final class Model extends SQLiteOpenHelper {
                 this.extractNames(R.string.query_select_env));
     }
 
-    public ArrayAdapter<String> getFirstNameAdapter() {
-        return new ArrayAdapter<>(
-                this.context,
-                R.layout.cell_tealium_setting_autocomplete_value,
-                this.extractNames(R.string.query_select_firstname));
+    public String getActiveTraceId() {
+        return this.sharedPreferences.getString(KEY_TRACE_ID, null);
     }
 
+    public void setActiveTraceId(String traceId) {
 
-    public void setBackgroundColor(int color) {
-        this.sharedPreferences.edit().putInt(KEY_BACKGROUND_COLOR, color).commit();
+        final SharedPreferences.Editor editor = this.sharedPreferences.edit();
+
+        if (traceId == null || traceId.length() == 0) {
+            editor.remove(KEY_TRACE_ID);
+        } else {
+            editor.putString(KEY_TRACE_ID, traceId);
+        }
+
+        editor.apply();
     }
-
 
     private String[] extractNames(int queryStringId) {
         SQLiteDatabase db = this.getReadableDatabase();

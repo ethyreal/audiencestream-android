@@ -14,10 +14,11 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AutoCompleteTextView;
+import android.widget.EditText;
+import android.widget.TextView;
 
+import com.tealium.audiencestream.AudienceStream;
 import com.tealium.kitchensink.R;
-import com.tealium.kitchensink.helper.TMSHelper;
 import com.tealium.kitchensink.model.Model;
 import com.tealium.kitchensink.util.Constant;
 
@@ -28,6 +29,9 @@ public class TealiumFeaturesFragment extends StyleableFragment implements View.O
 
     private final BroadcastReceiver colorChangeReveiver;
     private final IntentFilter colorChangeIntentFilter;
+    private EditText traceInput;
+    private TextView traceButton;
+
 
     public TealiumFeaturesFragment() {
         this.colorChangeReveiver = createColorChangeBroadcastReceiver();
@@ -39,19 +43,13 @@ public class TealiumFeaturesFragment extends StyleableFragment implements View.O
                              Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.fragment_tealium_features, container, false);
+        this.traceInput = (EditText) rootView.findViewById(R.id.tealium_features_input_trace);
+        this.traceButton = (TextView) rootView.findViewById(R.id.tealium_features_button_trace);
 
-        Model model = this.getModel(rootView.getContext());
+        this.setupView();
 
-        AutoCompleteTextView firstnameTextView = (AutoCompleteTextView) rootView.findViewById(R.id.tealium_features_firstname_actextview);
-        firstnameTextView.setAdapter(model.getFirstNameAdapter());
-        firstnameTextView.setText(model.getCurrentFirstName());
-
-        rootView.findViewById(R.id.tealium_features_button_personalize)
+        rootView.findViewById(R.id.tealium_features_button_trace)
                 .setOnClickListener(this);
-
-        rootView.findViewById(R.id.tealium_features_button_unlock)
-                .setOnClickListener(this);
-
 
         return rootView;
     }
@@ -73,19 +71,39 @@ public class TealiumFeaturesFragment extends StyleableFragment implements View.O
     @Override
     public void onClick(View v) {
 
-        if (v.getId() == R.id.tealium_features_button_personalize) {
+        if (v.getId() == R.id.tealium_features_button_trace) {
 
-            AutoCompleteTextView editText = (AutoCompleteTextView) getActivity()
-                    .findViewById(R.id.tealium_features_firstname_actextview);
+            if(this.traceInput.isEnabled()) {
+                final String traceId = this.traceInput.getText().toString();
 
-            final String name = editText.getText().toString();
+                if (traceId.length() > 0) {
+                    this.getModel(v.getContext()).setActiveTraceId(traceId);
+                    this.setupView();
+                    AudienceStream.joinTrace(traceId);
+                }
+            } else {
+                this.getModel(v.getContext()).setActiveTraceId(null);
+                this.setupView();
+                AudienceStream.leaveTrace();
+            }
+        }
+    }
 
-            this.getModel(v.getContext()).setDefaultFirstName(name);
+    private void setupView() {
+        Model model = this.getModel(this.getActivity());
 
-            TMSHelper.trackEvent("personalize", name);
+        final String traceId = model.getActiveTraceId();
 
-        } else if (v.getId() == R.id.tealium_features_button_unlock) {
-            TMSHelper.trackEvent("unlock", "true");
+        if (traceId == null) {
+            this.traceInput.setEnabled(true);
+            this.traceInput.setText("");
+
+            this.traceButton.setText(R.string.tealium_features_button_trace_title_join);
+        } else {
+            this.traceInput.setEnabled(false);
+            this.traceInput.setText(traceId);
+
+            this.traceButton.setText(R.string.tealium_features_button_trace_title_leave);
         }
     }
 

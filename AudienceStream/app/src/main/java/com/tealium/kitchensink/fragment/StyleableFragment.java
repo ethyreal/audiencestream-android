@@ -8,9 +8,6 @@ import android.view.View;
 
 import com.tealium.kitchensink.model.Model;
 
-/**
- * Created by chadhartman on 1/15/15.
- */
 abstract class StyleableFragment extends Fragment {
 
     private Model model;
@@ -25,7 +22,5 @@ abstract class StyleableFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        view.setBackgroundColor(this.getModel(view.getContext()).getBackgroundColor());
     }
 }

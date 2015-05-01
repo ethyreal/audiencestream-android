@@ -25,7 +25,7 @@ public class App extends Application {
                 this.pushBroadcastReceiver,
                 new IntentFilter(Constant.LocalBroadcast.ACTION_PUSH_RECEIVED));
 
-        TMSHelper.initialize(this);
+        TMSHelper.setup(this);
     }
 
     @Override

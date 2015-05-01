@@ -340,14 +340,14 @@ public final class AudienceStream {
      *
      * @param traceId Given trace id, typically a 5-digit numerical string.
      */
-    public static void startTrace(String traceId) {
+    public static void joinTrace(String traceId) {
         EventBus.submit(Events.createTraceUpdateEvent(traceId));
     }
 
     /**
      * Stop an active AudienceStream Trace if one is running.
      */
-    public static void stopTrace() {
+    public static void leaveTrace() {
         EventBus.submit(Events.createTraceUpdateEvent(null));
     }
 
@@ -369,7 +369,7 @@ public final class AudienceStream {
      * Implementers of this class can subscribe to Audience updates by adding the listener to
      * {@link AudienceStream#getEventListeners()}.
      */
-    public static interface OnAudienceUpdateListener extends EventListener {
+    public interface OnAudienceUpdateListener extends EventListener {
         /**
          * Indicate that an Audience has changed for this visitor.
          *
@@ -385,7 +385,7 @@ public final class AudienceStream {
      * Implementers of this class can subscribe to Badge updates by adding the listener to
      * {@link AudienceStream#getEventListeners()}
      */
-    public static interface OnBadgeUpdateListener extends EventListener {
+    public interface OnBadgeUpdateListener extends EventListener {
         /**
          * Indicate that a Badge has changed for this visitor.
          *
@@ -401,7 +401,7 @@ public final class AudienceStream {
      * Implementers of this class can subscribe to Flag updates by adding the listener to
      * {@link AudienceStream#getEventListeners()}
      */
-    public static interface OnFlagUpdateListener extends EventListener {
+    public interface OnFlagUpdateListener extends EventListener {
         /**
          * Indicate that a Flag has changed for this visitor.
          *
@@ -417,7 +417,7 @@ public final class AudienceStream {
      * Implementers of this class can subscribe to Date updates by adding the listener to
      * {@link AudienceStream#getEventListeners()}
      */
-    public static interface OnDateUpdateListener extends EventListener {
+    public interface OnDateUpdateListener extends EventListener {
         /**
          * Indicate that a Date has changed for this visitor.
          *
@@ -432,7 +432,7 @@ public final class AudienceStream {
      * Implementers of this class can subscribe to Metric updates by adding the listener to
      * {@link AudienceStream#getEventListeners()}
      */
-    public static interface OnMetricUpdateListener extends EventListener {
+    public interface OnMetricUpdateListener extends EventListener {
         /**
          * Indicate that a Metric has changed for this visitor.
          *
@@ -447,7 +447,7 @@ public final class AudienceStream {
      * Implementers of this class can subscribe to Property (AKA Trait) updates by adding the listener to
      * {@link AudienceStream#getEventListeners()}
      */
-    public static interface OnPropertyUpdateListener extends EventListener {
+    public interface OnPropertyUpdateListener extends EventListener {
         /**
          * Indicate that a Property (AKA Trait) has changed for this visitor.
          *
@@ -463,7 +463,7 @@ public final class AudienceStream {
      * Implementers of this class can subscribe to Profile updates by adding the listener to
      * {@link AudienceStream#getEventListeners()}
      */
-    public static interface OnProfileUpdatedListener extends EventListener {
+    public interface OnProfileUpdatedListener extends EventListener {
         /**
          * Indicate that a Profile has changed for this visitor.
          *
@@ -474,12 +474,14 @@ public final class AudienceStream {
         void onProfileUpdated(Profile oldProfile, Profile newProfile);
     }
 
+    // Exposed for testing
     static void setVisitorId(String newVisitorId) {
         if (Constant.DEBUG) {
             visitorId = newVisitorId;
         }
     }
 
+    // Exposed for testing
     static void setCachedProfile(Profile profile) {
         cachedProfile = profile;
     }

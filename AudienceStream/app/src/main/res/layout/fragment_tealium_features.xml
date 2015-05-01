@@ -4,29 +4,20 @@
     android:layout_height="match_parent"
     tools:context="com.tealium.kitchensink.fragment.TealiumFeaturesFragment">
 
-    <LinearLayout style="@style/tealium_list">
+    <LinearLayout
+        style="@style/tealium_list"
+        android:background="@drawable/border">
 
-        <LinearLayout
-            style="@style/tealium_list"
-            android:background="@drawable/border">
-
-            <AutoCompleteTextView
-                android:id="@+id/tealium_features_firstname_actextview"
-                style="@style/tealium_actextview" />
-
-            <Button
-                android:id="@+id/tealium_features_button_personalize"
-                style="@style/tealium_features_button"
-                android:text="@string/tealium_features_title_personalize" />
-
-        </LinearLayout>
+        <EditText
+            android:id="@+id/tealium_features_input_trace"
+            android:inputType="number"
+            android:hint="@string/tealium_features_input_trace_hint"
+            style="@style/tealium_actextview" />
 
         <Button
-            android:id="@+id/tealium_features_button_unlock"
-            android:layout_marginTop="10dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/tealium_features_title_unlock_mc" />
+            android:id="@+id/tealium_features_button_trace"
+            style="@style/tealium_features_button"
+            android:text="@string/tealium_features_button_trace_title_join" />
 
     </LinearLayout>
 

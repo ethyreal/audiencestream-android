@@ -35,9 +35,13 @@ public final class TMSHelper {
     private TMSHelper() {
     }
 
-    public static void initialize(Application app) {
+    public static void setup(Application app) {
 
         Model model = new Model(app);
+
+        if(AudienceStream.isEnabled()) {
+            AudienceStream.disable();
+        }
 
         AudienceStream.enable(new AudienceStream.Config(
                 app,
@@ -129,10 +133,6 @@ public final class TMSHelper {
         }
 
         AudienceStream.sendEvent(data);
-    }
-
-    public static void disable() {
-        AudienceStream.disable();
     }
 
     public static final class Key {

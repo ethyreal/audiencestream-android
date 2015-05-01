@@ -18,17 +18,11 @@
             created_ms INT NOT NULL
         )
     </string>
-    <string name="query_create_tbl_firstname">
-        CREATE TABLE firstname (
-            name TEXT NOT NULL UNIQUE,
-            created_ms INT NOT NULL
-        )
-    </string>
+
     <string-array name="query_create_db">
         <item>@string/query_create_tbl_account</item>
         <item>@string/query_create_tbl_profile</item>
         <item>@string/query_create_tbl_env</item>
-        <item>@string/query_create_tbl_firstname</item>
     </string-array>
 
     <string name="query_select_account">
@@ -39,8 +33,5 @@
     </string>
     <string name="query_select_env">
         SELECT name FROM environment ORDER BY name
-    </string>
-    <string name="query_select_firstname">
-        SELECT name FROM firstname ORDER BY name
     </string>
 </resources>

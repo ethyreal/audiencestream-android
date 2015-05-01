@@ -87,9 +87,8 @@ public class TealiumSettingsFragment extends Fragment implements View.OnClickLis
                 accountName,
                 profileName,
                 environmentName);
-
-        TMSHelper.disable();
-        TMSHelper.initialize(this.getActivity().getApplication());
+        
+        TMSHelper.setup(this.getActivity().getApplication());
 
         Toast.makeText(
                 getActivity(),
