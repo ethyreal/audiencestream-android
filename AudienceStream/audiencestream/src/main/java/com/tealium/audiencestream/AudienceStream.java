@@ -336,7 +336,7 @@ public final class AudienceStream {
     }
 
     /**
-     * Start an AudienceStream Trace with the given trace id.
+     * Join an AudienceStream Trace with the given trace id.
      *
      * @param traceId Given trace id, typically a 5-digit numerical string.
      */
@@ -345,7 +345,7 @@ public final class AudienceStream {
     }
 
     /**
-     * Stop an active AudienceStream Trace if one is running.
+     * Leave an active AudienceStream Trace if one is running.
      */
     public static void leaveTrace() {
         EventBus.submit(Events.createTraceUpdateEvent(null));
