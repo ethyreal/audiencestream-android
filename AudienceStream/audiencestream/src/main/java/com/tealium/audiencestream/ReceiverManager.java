@@ -8,7 +8,7 @@ import android.os.BatteryManager;
 
 import java.security.InvalidParameterException;
 
-final class BroadcastReceiverManager implements Events.OnDisableListener {
+final class ReceiverManager implements Events.OnDisableListener {
 
     private static final String ACTION_TRACE = "tealium.audiencestream.action.TRACE";
     private static final String EXTRA_TRACE_ID = "trace_id";
@@ -19,14 +19,14 @@ final class BroadcastReceiverManager implements Events.OnDisableListener {
 
     private boolean isRegistered;
 
-    BroadcastReceiverManager(AudienceStream.Config config) {
+    ReceiverManager(AudienceStream.Config config) {
         this.battChangedReceiver = new BattChangeReceiver();
         this.traceReceiver = createTraceReceiver();
         this.isRegistered = false;
         this.context = config.getContext();
     }
 
-    public BroadcastReceiverManager register() {
+    public ReceiverManager register() {
         if (!this.isRegistered) {
 
             battChangedReceiver.onReceive(
@@ -41,6 +41,10 @@ final class BroadcastReceiverManager implements Events.OnDisableListener {
         }
 
         return this;
+    }
+
+    public boolean isRegistered() {
+        return isRegistered;
     }
 
     @Override

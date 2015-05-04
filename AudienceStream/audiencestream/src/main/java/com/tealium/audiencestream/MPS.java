@@ -7,6 +7,12 @@ import org.json.JSONObject;
 
 final class MPS {
 
+    static final int DEFAULT_DISPATCH_EXPIRATION = -1;
+    static final int DEFAULT_OFFLINE_DISPATCH_LIMIT = -1;
+    static final int DEFAULT_EVENT_BATCH_SIZE = 1;
+    static final boolean DEFAULT_WIFI_ONLY_SENDING = false;
+    static final boolean DEFAULT_BATTERY_SAVER = true;
+
     private final int dispatchExpiration;
     private final int offlineDispatchLimit;
     private final int eventBatchSize;
@@ -16,20 +22,20 @@ final class MPS {
     private volatile int hashCode;
 
     MPS() {
-        this.dispatchExpiration = -1;
-        this.offlineDispatchLimit = -1;
-        this.eventBatchSize = 1;
-        this.wifiOnlySending = false;
-        this.batterySaver = true;
+        this.dispatchExpiration = DEFAULT_DISPATCH_EXPIRATION;
+        this.offlineDispatchLimit = DEFAULT_OFFLINE_DISPATCH_LIMIT;
+        this.eventBatchSize = DEFAULT_EVENT_BATCH_SIZE;
+        this.wifiOnlySending = DEFAULT_WIFI_ONLY_SENDING;
+        this.batterySaver = DEFAULT_BATTERY_SAVER;
     }
 
     MPS(Context context) {
         SharedPreferences sp = context.getSharedPreferences(Constant.SP.NAME, 0);
-        this.dispatchExpiration = sp.getInt(Constant.SP.KEY_DISPATCH_EXPIRATION, -1);
-        this.offlineDispatchLimit = sp.getInt(Constant.SP.KEY_OFFLINE_DISPATCH_LIMIT, -1);
-        this.eventBatchSize = sp.getInt(Constant.SP.KEY_EVENT_BATCH_SIZE, 1);
-        this.wifiOnlySending = sp.getBoolean(Constant.SP.KEY_WIFI_ONLY_SENDING, false);
-        this.batterySaver = sp.getBoolean(Constant.SP.KEY_BATTERY_SAVER, true);
+        this.dispatchExpiration = sp.getInt(Constant.SP.KEY_DISPATCH_EXPIRATION, DEFAULT_DISPATCH_EXPIRATION);
+        this.offlineDispatchLimit = sp.getInt(Constant.SP.KEY_OFFLINE_DISPATCH_LIMIT, DEFAULT_OFFLINE_DISPATCH_LIMIT);
+        this.eventBatchSize = sp.getInt(Constant.SP.KEY_EVENT_BATCH_SIZE, DEFAULT_EVENT_BATCH_SIZE);
+        this.wifiOnlySending = sp.getBoolean(Constant.SP.KEY_WIFI_ONLY_SENDING, DEFAULT_WIFI_ONLY_SENDING);
+        this.batterySaver = sp.getBoolean(Constant.SP.KEY_BATTERY_SAVER, DEFAULT_BATTERY_SAVER);
     }
 
     MPS(JSONObject o) throws DisabledLibraryException {

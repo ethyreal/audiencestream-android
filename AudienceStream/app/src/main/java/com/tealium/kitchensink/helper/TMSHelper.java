@@ -39,7 +39,7 @@ public final class TMSHelper {
 
         Model model = new Model(app);
 
-        if(AudienceStream.isEnabled()) {
+        if (AudienceStream.isEnabled()) {
             AudienceStream.disable();
         }
 
@@ -48,7 +48,6 @@ public final class TMSHelper {
                 model.getAccountName(),
                 model.getProfileName(),
                 model.getEnvironmentName())
-                .setHttpsEnabled(false)
                 .setLogLevel(Log.VERBOSE));
 
         AudienceStream.getEventListeners().add(new AudienceStream.OnProfileUpdatedListener() {

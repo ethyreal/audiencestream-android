@@ -14,6 +14,8 @@ final class Logger implements
         Events.OnDispatchSentListener,
         Events.OnDispatchQueuedListener {
 
+    static final int SILENT = Integer.MAX_VALUE;
+
     private static final String TAG = "Tealium-" + Constant.VERSION;
     private static OnLogListener listener;
     private static volatile int logLevel = Log.WARN;
@@ -92,7 +94,7 @@ final class Logger implements
 
     static void setLogLevel(int level) {
         if (level < Log.VERBOSE || level > Log.ASSERT) {
-            logLevel = Integer.MAX_VALUE;
+            logLevel = SILENT;
         } else {
             logLevel = level;
         }
@@ -150,7 +152,7 @@ final class Logger implements
         }
     }
 
-    static interface OnLogListener {
+    interface OnLogListener {
         void onLog(int level, String msg, Throwable t);
     }
 }

@@ -80,7 +80,7 @@ final class EventBus {
                 eventListeners.add(new Logger());
                 eventListeners.add(new ProcessingCenter(config));
                 eventListeners.add(new ProfileRetriever(config));
-                eventListeners.add(new BroadcastReceiverManager(config).register());
+                eventListeners.add(new ReceiverManager(config).register());
             }
         };
     }
