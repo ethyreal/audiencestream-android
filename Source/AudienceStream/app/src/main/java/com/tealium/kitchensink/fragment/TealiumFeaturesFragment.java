@@ -73,7 +73,7 @@ public class TealiumFeaturesFragment extends StyleableFragment implements View.O
 
         if (v.getId() == R.id.tealium_features_button_trace) {
 
-            if(this.traceInput.isEnabled()) {
+            if (this.traceInput.isEnabled()) {
                 final String traceId = this.traceInput.getText().toString();
 
                 if (traceId.length() > 0) {

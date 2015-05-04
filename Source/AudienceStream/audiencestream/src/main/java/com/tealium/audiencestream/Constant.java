@@ -6,7 +6,7 @@ final class Constant {
     static final String TAB = "    ";
 
     // Created because BuildConfig.DEBUG always false when creating this module.
-    static final boolean DEBUG = true;
+    static final boolean DEBUG = false;
     static final String DEBUG_TAG = "AS-DEBUG";
     static final String VERSION = "AS_1.0";
 

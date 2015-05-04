@@ -112,7 +112,13 @@ final class ProcessingCenter implements
             if ((fileContents = Util.readFile(file)) == null) {
                 return null;
             }
-            return new JSONObject(fileContents).optString(Constant.SP.KEY_DEVICE_UUID, null);
+
+            JSONObject contents = new JSONObject(fileContents);
+            if(contents.has("dnt")) {
+                AudienceStream.disable();
+                return null;
+            }
+            return contents.optString(Constant.SP.KEY_DEVICE_UUID, null);
         } catch (Throwable t) {
             Logger.e("Error parsing device_uuid from " + fileContents, t);
             return null;
